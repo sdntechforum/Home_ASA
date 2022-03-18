@@ -1,0 +1,48 @@
+$ sudo apt-get install syslog-ng
+$  syslog-ng version
+$ cat /etc/syslog-ng/syslog-ng.conf
+
+
+$ sudo apt install net-tools
+$ netstat -tunalp
+$ sudo service status syslog-ng
+
+! Create a new syslog-ng config file
+
+$ sudo vi firewals.conf
+##################################################
+options {
+        create_dirs(yes);
+        owner(sdntech);
+        group(sdntech);
+        perm(0640);
+        dir_owner(ubuntu);
+        dir_group(ubuntu);
+        dir_perm(0750);
+};
+ 
+ 
+##################################################
+source s_net { 
+               tcp(ip(0.0.0.0) port(514)); 
+               udp(ip(0.0.0.0) port(514));
+};
+##################################################
+destination d_host-specific {
+        file("/var/log/firewalls/$HOST/$YEAR/$MONTH/$HOST-$YEAR-$MONTH-$DAY.log");
+};
+log {
+        source(s_net);
+        destination(d_host-specific);
+};
+
+
+############################################
+
+! save and restart syslog-ng
+
+$ sudo service syslog-ng restart
+
+!verify 
+
+$ netstat -tulpn | grep 514
