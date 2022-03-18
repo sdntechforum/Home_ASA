@@ -1,0 +1,47 @@
+Snmp-server community <name> RO
+Snmp-server community <name> RW
+Snmp-server enable traps
+Snmp-server host <x.x.x.x> version 2c <>
+!
+Show snmp
+Check how "inform"  for SNMPv2c
+!
+V3 authNOPriv 
+Snmp-server engineID local <key>
+Snmp-server group <mygroup> v3 auth 
+Snmp-server user <myuser> mygroup v3 auth md5 <authpassowrd>
+# if user is v3 user need auth passowrd mandatory
+!
+Show snmp user
+Show snmp group
+Show snmp view
+!
+#To have your own view
+Snmp-server group mygroup v3 auth read <myview>
+Snmp-server view <myview> mib-2 included
+Snmp-server view <myview> cisco exclude
+
+Server% snmpget -v 3 -u myuser -I authNoPriv -a md5 -A mypassword <router > sysUpTime.0
+% snmpwalk -c public -v 2c <router> ifTable
+
+To check MIB table 
+Snmptable -c public -v 2c =Cb -Ci <router> if Table
+
+
+
+
+Ubuntu SNMPWALK install :
+
+$ sudo apt-get install snmp
+Installing MIBs
+$ sudo apt-get install snmp-mibs-downloader
+$ sudo download-mibs
+To have the new MIBs recognized by net-snmp, edit /etc/snmp/snmp.conf file as follows
+$ cat /etc/snmp/snmp.conf
+mibs +ALL
+$
+Installing a MIB browser
+$ sudo dpkg -i qmib_X.Y.Z_1_amd64.ubuntu.deb
+Start the program from the command line as qtmib or from your desktop environment menus. 
+Once started, go into File/Preferences and configure the IP address and community string. 
+Retrieve the data from your device, and click Translate to translate the OIDs in the result window.
