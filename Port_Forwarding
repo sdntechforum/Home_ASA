@@ -1,3 +1,12 @@
+Steps:
+1. Define your Server 
+2. Define PAT for your Server
+3. Open access to your Server using ACL
+
+
+##################  Commands Here ###############
+
+
 object network MQTT-Broker
  host 192.168.1.125
 !
@@ -6,7 +15,9 @@ object network MQTT-Broker
 !
  
 object network Port_Fwd_Test_Host
- host 75.7.142.225
+ host 132.145.212.143
 !
  access-list outside_access_in extended permit tcp object Port_Fwd_Test_Host object MQTT-Broker
  access-group outside_access_in in interface outside
+ 
+ ###################################################
