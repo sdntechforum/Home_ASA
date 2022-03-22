@@ -1,0 +1,12 @@
+object network MQTT-Broker
+ host 192.168.1.125
+!
+object network MQTT-Broker
+ nat (inside,outside) static interface service tcp 1884 18840
+!
+ 
+object network Port_Fwd_Test_Host
+ host 75.7.142.225
+!
+ access-list outside_access_in extended permit tcp object Port_Fwd_Test_Host object MQTT-Broker
+ access-group outside_access_in in interface outside
